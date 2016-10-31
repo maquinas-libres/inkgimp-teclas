@@ -1,3 +1,5 @@
+![teclado numerico](teclado.jpg)
+
 Un teclado numerico como paleta de gimp e inkscape
 
 ~~~
