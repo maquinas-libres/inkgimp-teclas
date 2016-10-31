@@ -1,0 +1,53 @@
+#!/bin/bash
+#
+#   paleta para gimp e inkscape con un teclado numerico
+#
+while [ 1 ]; do
+[ ! "$1" == "" ] && ID=$(xinput list | grep 13ba | cut -d= -f2 | sed 's/\t.*$//g') || ID="$1"
+xinput float $ID
+xinput test $ID | while read A; do
+    K=$(echo $A | grep release | cut -d" " -f3)
+    P=$(xdotool getwindowfocus getwindowname)
+    if [ ! "$(echo $P | grep -i gimp)" == "" ]; then
+        [ "$K" == "63" ]    && xdotool key "ctrl+d"
+        [ "$K" == "79" ]    && xdotool key n
+        [ "$K" == "80" ]    && xdotool key k
+        [ "$K" == "82" ]    && xdotool type "-"
+        [ "$K" == "84" ]    && xdotool key "ctrl+0"
+        [ "$K" == "86" ]    && xdotool type "+"
+        [ "$K" == "87" ]    && xdotool key "ctrl+z"
+        [ "$K" == "88" ]    && xdotool key "shift+ctrl+z"
+        [ "$K" == "90" ]    && xdotool key x
+        [ "$K" == "91" ]    && xdotool key d
+        [ "$K" == "104" ]   && xdotool key "ctrl+e"
+        [ "$K" == "104" ]   && xdotool key "ctrl+s"
+        [ "$K" == "106" ]   && xdotool key "w"
+        #if [ "$K" == "106" ] && [ "$K1" == "106" ]; then
+        #    xdotool key "Control_L+D"
+        #    echo "deseleccionar"
+        #fi
+    fi
+done
+    sleep 30
+done
+exit
+
+Teclas
+======
+
+1 87
+2 88
+3 89
+4 83
+5 84
+6 85
+7 81
+8 80
+9 79
+0 90
++ 86
+- 82
+e 104
+/ 106
+* 63
+d 91
