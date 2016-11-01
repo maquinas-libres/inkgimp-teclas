@@ -3,15 +3,19 @@
 #   paleta para gimp e inkscape con un teclado numerico
 #
 while [ 1 ]; do
-[ ! "$1" == "" ] && ID=$(xinput list | grep 13ba | cut -d= -f2 | sed 's/\t.*$//g') || ID="$1"
+[ "$1" == "" ] && ID=$(xinput list | grep 13ba | cut -d= -f2 | sed 's/\t.*$//g') || ID="$1"
 xinput float $ID
 xinput test $ID | while read A; do
     K=$(echo $A | grep release | cut -d" " -f3)
+    K1=$(echo $A | grep press | cut -d" " -f3)
     P=$(xdotool getwindowfocus getwindowname)
+    echo $A
+    echo "R:$K P:$K1 M:$KK"
     if [ ! "$(echo $P | grep -i gimp)" == "" ]; then
         [ "$K" == "63" ]    && xdotool key "ctrl+d"
         [ "$K" == "79" ]    && xdotool key n
         [ "$K" == "80" ]    && xdotool key k
+        [ "$K" == "81" ]    && xdotool key "i"
         [ "$K" == "82" ]    && xdotool type "-"
         [ "$K" == "84" ]    && xdotool key "ctrl+0"
         [ "$K" == "86" ]    && xdotool type "+"
@@ -19,14 +23,26 @@ xinput test $ID | while read A; do
         [ "$K" == "88" ]    && xdotool key "shift+ctrl+z"
         [ "$K" == "90" ]    && xdotool key x
         [ "$K" == "91" ]    && xdotool key d
-        [ "$K" == "104" ]   && xdotool key "ctrl+e"
-        [ "$K" == "104" ]   && xdotool key "ctrl+s"
+        [ "$K" == "104" ]   && xdotool key "Return"
         [ "$K" == "106" ]   && xdotool key "w"
-        #if [ "$K" == "106" ] && [ "$K1" == "106" ]; then
-        #    xdotool key "Control_L+D"
-        #    echo "deseleccionar"
-        #fi
+        if [ "$K" == "106" ] && [ "$KK" == "106" ]; then
+            xdotool key "ctrl+d"
+            echo "deseleccionar"
+        fi
     fi
+    if [ ! "$(echo $P | grep -i inkscape)" == "" ]; then
+        [ "$K" == "79" ]  && xdotool key "F1"
+        [ "$K" == "80" ]  && xdotool key "shift+F6"
+        [ "$K" == "82" ]  && xdotool type "-"
+        [ "$K" == "84" ]  && xdotool key "5"
+        [ "$K" == "86" ]  && xdotool type "+"
+        [ "$K" == "81" ]  && xdotool key "F7"
+        [ "$K1" == "87" ]  && xdotool keydown "ctrl"
+        [ "$K" == "87" ]  && xdotool keyup "ctrl"
+        [ "$K1" == "88" ]  && xdotool keydown "shift"
+        [ "$K" == "88" ]  && xdotool keyup "shift"
+    fi
+    [ ! "$K" == "" ] && KK=$K
 done
     sleep 30
 done
@@ -41,9 +57,9 @@ Teclas
 4 83
 5 84
 6 85
-7 81
+7 79
 8 80
-9 79
+9 81
 0 90
 + 86
 - 82
